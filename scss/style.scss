@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .container {
+    width: 1000px;
+    height: 400px;
+    background-color: rgba(white, 1);
+  }
+}
+
+.guide {
+  width: 250px;
+  .year {
+    width: 100px;
+    height: 50px;
+    padding: 5px;
+    font-size: 1.5em;
+    margin: 10px 0;
+    text-align: center;
+  }
+  .seasons {
+    width: 145px;
+    height: 50px;
+    padding: 5px;
+    font-size: 1.5em;
+  }
+}
+
+.anime {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  height: 400px;
+  background-color: rgba(black, 0.25);
+  .titleAnime {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    margin: 0;
+  }
+  .animeImg {
+    display: block;
+    width: 250px;
+    height: 350px;
+    background-color: rgb(93, 127, 189);
+  }
+  .content {
+    width: calc(100% - 250px);
+    height: 350px;
+    .opening, .ending  {
+      margin-left: 20px;
+      color: black;
+      .info {
+        font-size: 1.5em;
+      }
+    }
+  }
+}
+
+.control {
+  display: flex;
+  justify-content: center;
+  .backwardAnime, .forwardAnime {
+    padding: 10px 83px;
+    margin: 10px;
+    font-size: 4em;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+  }
+}
+
