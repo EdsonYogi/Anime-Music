@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.main .container {
+  width: 1000px;
+  height: 400px;
+  background-color: white;
+}
+
+.guide {
+  width: 250px;
+}
+.guide .year {
+  width: 100px;
+  height: 50px;
+  padding: 5px;
+  font-size: 1.5em;
+  margin: 10px 0;
+  text-align: center;
+}
+.guide .seasons {
+  width: 145px;
+  height: 50px;
+  padding: 5px;
+  font-size: 1.5em;
+}
+
+.anime {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.anime .titleAnime {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  margin: 0;
+}
+.anime .animeImg {
+  display: block;
+  width: 250px;
+  height: 350px;
+  background-color: #5d7fbd;
+}
+.anime .content {
+  width: calc(100% - 250px);
+  height: 350px;
+}
+.anime .content .opening, .anime .content .ending {
+  margin-left: 20px;
+  color: black;
+}
+.anime .content .opening .info, .anime .content .ending .info {
+  font-size: 1.5em;
+}
+
+.control {
+  display: flex;
+  justify-content: center;
+}
+.control .backwardAnime, .control .forwardAnime {
+  padding: 10px 83px;
+  margin: 10px;
+  font-size: 4em;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=style.css.map */
