@@ -1,81 +1,90 @@
-function animeList() {
-  let year = document.querySelector('.year')
-  let season = document.querySelector('.seasons')
-  const animeTitle = document.querySelector('.titleAnime')
-  const animeImg = document.querySelector('.animeImg')
-  const animeOpening = document.querySelector('.opening .info')
-  const animeEnding = document.querySelector('.ending .info')
-  const backwardAnime = document.querySelector('.backwardAnime')
-  const forwardAnime = document.querySelector('.forwardAnime')
-  
-  let i = -1
-  let memoSeason = season.value
-  let memoDirection
+const animeOpening = document.querySelector('.opening .info')
+const animeEnding = document.querySelector('.ending .info')  
+const animeImage = document.querySelector('.animeImg')
+const animeTitle = document.querySelector('.titleAnime')
+const previousAnime = document.querySelector('.backwardAnime')
+const nextAnime = document.querySelector('.forwardAnime')
+let year = document.querySelector('.year')
+let seasons = document.querySelector('.seasons')
+let animeList
+let memoDirection
+let memoSeasons
+let memoYear
+let n = 0
 
-  backwardAnime.addEventListener('click', initBackwardAnime)
-
-  function initBackwardAnime() {
-    if(i > 0) {
-      i -= 1
-      memoDirection = 'Backward'
-      initAnimeList()
+previousAnime.addEventListener('click', onPreviousAnime)
+function onPreviousAnime() {
+  if(memoSeasons == seasons.value && memoYear == year.value) {
+    if(n > 0) {
+      n = n - 1
+      memoDirection = 'Previous'
+      getAnimeID()
     }
-  }
-
-  forwardAnime.addEventListener('click', initForwardAnime)
-
-  function initForwardAnime() {
-    i += 1
-    memoDirection = 'Forward'
-    initAnimeList()
-  }
-  
-  function initAnimeList() {
-    fetch(`https://api.jikan.moe/v3/season/${year.value}/${season.value}`)
-    .then(response => response.json())
-    .then(result => {
-      const animesList = result.anime
-      if(memoSeason == season.value) {
-        if(animesList[i].type == 'TV') {
-          const image = animesList[i].image_url
-          const title = animesList[i].title
-          const animeID = animesList[i].mal_id
-          initAnimeInfo(animeID, image, title)
-          console.log(i)
-          console.log(animesList[i])
-        }
-      } else {
-        memoSeason = season.value
-        i = 0
-        initAnimeList()
-      }
-    });
-  }
-
-  function initAnimeInfo(animeID, image, title) {
-    fetch(`https://api.jikan.moe/v3/anime/${animeID}/`)
-    .then(response => response.json())
-    .then(info => {
-      if(info.opening_themes.length > 0  || info.ending_themes.length > 0) {
-        let opening = info.opening_themes
-        let ending = info.ending_themes
-        initAnimeContent(opening, ending, image, title)
-      } else if(memoDirection == 'Backward') {
-        i -= 1
-        initAnimeList()
-      } else if(memoDirection == 'Forward') {
-        i += 1
-        initAnimeList()
-      }
-    });
-  }
-
-  function initAnimeContent(opening, ending, image, title) {
-    animeImg.setAttribute('src', image)
-    animeTitle.innerHTML = title
-    animeOpening.innerHTML = opening
-    animeEnding.innerHTML = ending
+  } else {
+    onSeasons()
   }
 }
 
-animeList()
+nextAnime.addEventListener('click', onNextAnime)
+function onNextAnime() {
+  if(memoSeasons == seasons.value && memoYear == year.value) {
+    n = n + 1
+    memoDirection = 'Next'
+    getAnimeID()
+  } else {
+    onSeasons()
+  }
+}
+
+
+function onSeasons() {
+  n = 0
+  memoYear = year.value
+  memoSeasons = seasons.value
+  getAnimeList()
+}
+
+onSeasons()
+
+function getAnimeList() {
+  fetch(`https://api.jikan.moe/v3/season/${memoYear}/${memoSeasons}`)
+  .then(response => response.json())
+  .then(animes => {
+    animeList = animes.anime
+    getAnimeID()
+  });
+}
+
+function getAnimeID() {
+  const id = animeList[n].mal_id
+  getAnimeInfo(id)
+}
+
+function getAnimeInfo(id) {
+   fetch(`https://api.jikan.moe/v3/anime/${id}/`)
+  .then(response => response.json())
+  .then(animeInfo => {
+    if(animeInfo.opening_themes.length > 0  || animeInfo.ending_themes.length > 0) {
+      const image = animeInfo.image_url
+      const title = animeInfo.title
+      const opening = animeInfo.opening_themes
+      const ending = animeInfo.ending_themes
+      setAnimeInfo(image, title, opening, ending)
+    } else if(memoDirection == 'Previous') {
+      if(n > 0) {
+        n -= 1
+        getAnimeID()
+      }
+    } else if(memoDirection == 'Next') {
+      n+= 1
+      getAnimeID()
+    }
+  });
+}
+
+function setAnimeInfo(image, title, opening, ending) {
+  animeTitle.innerText = title
+  animeImage.setAttribute('src', image)
+  animeOpening.innerText = opening
+  animeEnding.innerText = ending
+}

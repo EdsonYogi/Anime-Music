@@ -15,19 +15,21 @@
 }
 
 .guide {
-  width: 250px;
+  display: flex;
+  width: 100%;
   .year {
     width: 100px;
     height: 50px;
     padding: 5px;
     font-size: 1.5em;
-    margin: 10px 0;
+    margin: 0 10px 10px 0;
     text-align: center;
   }
   .seasons {
     width: 145px;
     height: 50px;
     padding: 5px;
+    margin: 0 10px 10px 0;
     font-size: 1.5em;
   }
 }
