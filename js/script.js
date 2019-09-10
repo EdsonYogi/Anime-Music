@@ -1,5 +1,5 @@
-const animeOpening = document.querySelector('.opening .info')
-const animeEnding = document.querySelector('.ending .info')  
+const animeMusic = document.querySelector('.opening-ending .info')
+const search = document.querySelector('.searchMusic')
 const animeImage = document.querySelector('.animeImg')
 const animeTitle = document.querySelector('.titleAnime')
 const previousAnime = document.querySelector('.backwardAnime')
@@ -14,28 +14,30 @@ let n = 0
 
 previousAnime.addEventListener('click', onPreviousAnime)
 function onPreviousAnime() {
-  if(memoSeasons == seasons.value && memoYear == year.value) {
     if(n > 0) {
       n = n - 1
       memoDirection = 'Previous'
+      onCleanerOptions()
       getAnimeID()
     }
-  } else {
-    onSeasons()
-  }
 }
 
 nextAnime.addEventListener('click', onNextAnime)
 function onNextAnime() {
-  if(memoSeasons == seasons.value && memoYear == year.value) {
     n = n + 1
     memoDirection = 'Next'
+    onCleanerOptions()
     getAnimeID()
-  } else {
-    onSeasons()
-  }
 }
 
+function onCleanerOptions() {
+  animeMusic.querySelectorAll('option').forEach((item) => {
+    item.remove()
+  })
+}
+
+seasons.addEventListener('change', onSeasons)
+year.addEventListener('change', onSeasons)
 
 function onSeasons() {
   n = 0
@@ -83,8 +85,32 @@ function getAnimeInfo(id) {
 }
 
 function setAnimeInfo(image, title, opening, ending) {
+  let option
+
   animeTitle.innerText = title
-  animeImage.setAttribute('src', image)
-  animeOpening.innerText = opening
-  animeEnding.innerText = ending
+  animeImage.setAttribute('src', image) 
+
+  opening.forEach((item) => {
+    option = document.createElement('option')
+    option.text = item
+    animeMusic.appendChild(option)
+  })
+
+  ending.forEach((item) => {
+    option = document.createElement('option')
+    option.text = item
+    animeMusic.appendChild(option)
+  })
+}
+
+search.addEventListener('click', onSearchMusic)
+
+function onSearchMusic() {
+  if(animeMusic.value) {
+    animeMusic.classList.remove('noSelected')
+    window.open(`https://music.youtube.com/search?q=${animeMusic.value}`, '_blank');
+  } else {
+    animeMusic.classList.add('noSelected')
+    alert('Um item da lista deve ser selecionada!')
+  }
 }
