@@ -1,4 +1,4 @@
-const animeMusic = document.querySelector('.opening-ending .info')
+const animeMusic = document.querySelector('.info')
 const search = document.querySelector('.searchMusic')
 const animeImage = document.querySelector('.animeImg')
 const animeTitle = document.querySelector('.titleAnime')
@@ -43,6 +43,7 @@ function onSeasons() {
   n = 0
   memoYear = year.value
   memoSeasons = seasons.value
+  onCleanerOptions()
   getAnimeList()
 }
 
@@ -92,13 +93,25 @@ function setAnimeInfo(image, title, opening, ending) {
 
   opening.forEach((item) => {
     option = document.createElement('option')
-    option.text = item
+    let info = item.split('by')
+    let song = info[0].split('"')
+    song = song[1]
+    let artist 
+    artist = info[1].split(' (ep')
+    artist = artist[0]
+    option.text = `${artist} - ${song}`
     animeMusic.appendChild(option)
   })
 
   ending.forEach((item) => {
     option = document.createElement('option')
-    option.text = item
+    let info = item.split('by')
+    let song = info[0].split('"')
+    song = song[1]
+    let artist 
+    artist = info[1].split(' (ep')
+    artist = artist[0]
+    option.text = `${artist} - ${song}`
     animeMusic.appendChild(option)
   })
 }
